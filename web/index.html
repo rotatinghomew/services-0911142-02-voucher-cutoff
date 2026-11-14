@@ -3,11 +3,36 @@
 <title>托育补贴门槛研究台</title><link rel="stylesheet" href="/style.css"></head>
 <body><header><span>教研数据 · 复核工作区</span><h1>托育补贴门槛研究台</h1><p>门槛两侧申请与实际核销记录</p></header>
 <main><aside><h2>数据与范围</h2><label>数据版本<select id="revision"></select></label><div id="controls"></div>
-<button id="inspect">查看所选范围</button><label>导入完整数据<input id="upload" type="file" accept=".json,application/json"></label>
+<button id="inspect">查看所选范围</button>
+<h2>门槛分析设置</h2><div id="threshold-controls"></div>
+<button id="threshold">运行门槛分析</button><button id="compare">对照几种分析选择</button>
+<label>导入完整数据<input id="upload" type="file" accept=".json,application/json"></label>
 <button id="raw">查看原始记录</button><h2>分析记录</h2><label>记录名称<input id="title" value="本次复核"></label>
-<button id="save">保存当前描述</button><div id="archive"></div></aside>
+<button id="save">保存当前描述</button><button id="save-threshold">保存当前分析</button><div id="archive"></div></aside>
 <section><div id="status" role="status">正在读取本地数据…</div><div id="summary"></div>
-<h2>门槛两侧申请与实际核销记录</h2><div id="notes"></div><canvas id="chart" width="960" height="300" aria-label="所选范围描述图"></canvas>
+<section id="browse-panel">
+<div id="notes"></div><canvas id="chart" width="960" height="300" aria-label="所选范围描述图"></canvas>
+<h2 id="browse-heading">门槛两侧申请与实际核销记录</h2>
 <div class="table-wrap"><table><thead id="columns"></thead><tbody id="rows"></tbody></table></div>
+</section>
+<section id="threshold-panel" hidden>
+<div class="banner" id="threshold-status"></div><p id="threshold-rule" class="subnote"></p>
+<p id="threshold-conclusion" class="conclusion"></p><p id="threshold-scope" class="subnote"></p>
+<div id="threshold-notes"></div>
+<section id="threshold-estimates-section"><h2>估计与区间</h2>
+<div class="table-wrap"><table id="threshold-estimates"><thead><tr><th>指标</th><th>估计</th><th>95%区间</th><th>有效样本</th><th>方向</th><th>口径</th></tr></thead><tbody></tbody></table></div></section>
+<section id="threshold-support-section"><h2>有效样本</h2><div id="threshold-support" class="cards"></div></section>
+<section id="threshold-diagnostic-section"><h2>识别检查</h2><div id="threshold-diagnostics" class="notes"></div></section>
+<section id="threshold-descriptive-section"><h2>门槛两侧描述（未识别）</h2><div id="threshold-descriptive" class="notes"></div></section>
+<section id="threshold-covariate-section"><h2 id="threshold-covariates-heading">门槛两侧协变量</h2>
+<div class="table-wrap"><table id="threshold-covariates"></table></div></section>
+<section id="threshold-distribution-section"><h2 id="threshold-distribution-heading">门槛附近登记分布</h2><canvas id="threshold-bins" width="960" height="290" aria-label="门槛附近登记数"></canvas>
+<div class="table-wrap"><table id="threshold-histogram"></table></div></section>
+<section id="threshold-exclusion-section"><h2>样本排除与资料截面</h2>
+<div class="table-wrap"><table id="threshold-exclusions"></table></div></section>
+<section id="comparison-panel" hidden><h2>分析选择对照</h2>
+<div class="table-wrap"><table id="comparison-table"></table></div>
+<div id="comparison-actions"></div></section>
+</section>
 <h2 id="detail-heading">记录与依据</h2><pre id="details">点击记录行可查看详细字段。</pre><button id="export">导出当前记录</button>
 </section></main><footer>仅使用本地虚构记录；描述统计不替代研究设计与业务复核。</footer><script src="/app.js"></script></body></html>

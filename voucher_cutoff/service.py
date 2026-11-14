@@ -3,6 +3,7 @@ import json
 
 from .domain import explore, validate
 from .storage import Store, fingerprint
+from .threshold import alternatives, estimate, prepare
 
 
 class Workbench:
@@ -35,6 +36,38 @@ class Workbench:
         result = explore(data, selection)
         return {"revision": revision, "selection": selection, "data_sha256": fingerprint(data), "view": result}
 
+    def threshold(self, body):
+        revision = body.get("revision", self.default_revision)
+        selection = body.get("selection", {})
+        if not isinstance(selection, dict):
+            raise ValueError("选择条件必须是对象")
+        data = self.store.dataset(revision)
+        result = estimate(data, selection)
+        summary = result["summary"]
+        resolved = {key: summary[key] for key in ("year", "window", "donut", "followup", "order", "kernel")}
+        return {"analysis": "threshold", "revision": revision, "selection": resolved,
+                "data_sha256": fingerprint(data), "threshold": result}
+
+    def compare(self, body):
+        revision = body.get("revision", self.default_revision)
+        selection = body.get("selection", {})
+        if not isinstance(selection, dict):
+            raise ValueError("选择条件必须是对象")
+        data = self.store.dataset(revision)
+        scenarios = alternatives(data, selection)
+        options = prepare(data, selection)["options"]
+        resolved = {key: options[key] for key in ("year", "window", "donut", "followup", "order", "kernel")}
+        return {"analysis": "comparison", "revision": revision, "selection": resolved,
+                "data_sha256": fingerprint(data), "comparison": {"scenarios": scenarios}}
+
     def save(self, body):
-        result = self.inspect(body)
+        analysis = body.get("analysis")
+        if analysis == "threshold":
+            result = self.threshold(body)
+        elif analysis == "comparison":
+            result = self.compare(body)
+        elif analysis is None:
+            result = self.inspect(body)
+        else:
+            raise ValueError("未知的分析类型：" + str(analysis))
         return self.store.save(body.get("title", ""), result["revision"], result["selection"], result)

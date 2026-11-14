@@ -12,7 +12,7 @@
     ],
     [
       "window",
-      "年龄窗口",
+      "浏览年龄窗口",
       [
         "45",
         "90"
@@ -23,5 +23,11 @@
     "year": "2026",
     "window": "90"
   },
-  "purpose": "社会服务分析资料复核"
+  "purpose": "社会服务分析资料复核",
+  "threshold": {
+    "donut": 0,
+    "followup": 60,
+    "order": 1,
+    "kernel": "triangular"
+  }
 }
