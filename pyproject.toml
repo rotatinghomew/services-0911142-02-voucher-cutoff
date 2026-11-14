@@ -1,0 +1,6 @@
+[project]
+name = "voucher-cutoff"
+version = "0.1.0"
+description = "托育补贴门槛研究台"
+requires-python = ">=3.11"
+dependencies = []
